@@ -1,3 +1,4 @@
+// src/upload-excel/upload-excel.service.ts
 import { Injectable } from '@nestjs/common';
 import { UserExcelService } from '../userexcel/userexcel.service';
 import * as ExcelJS from 'exceljs';
@@ -13,13 +14,37 @@ export class UploadExcelService {
 
     for (let i = 2; i <= worksheet.rowCount; i++) {
       const row = worksheet.getRow(i);
-      const name = row.getCell(1).text.trim();
-      const email = row.getCell(2).text.trim();
-      const phone = row.getCell(3).text.trim();
 
-      if (name && email && phone) {
-        await this.userExcelService.addUserExcel({ name, email, phone });
-      }
+      const title = this.getCellValueOrNull(row.getCell(1));
+      const name = this.getCellValueOrNull(row.getCell(2));
+      const email = this.getCellValueOrNull(row.getCell(3));
+      const phone = this.getCellValueOrNull(row.getCell(4));
+      const agencyEVP = this.getCellValueOrNull(row.getCell(5));
+      const agencySVP = this.getCellValueOrNull(row.getCell(6));
+      const agencyDM = this.getCellValueOrNull(row.getCell(7));
+      const area = this.getCellValueOrNull(row.getCell(8));
+      const yearWork = this.getCellValueOrNull(row.getCell(9));
+
+      await this.userExcelService.addUserExcel({
+        title,
+        name: name ?? '',
+        email: email ?? '',
+        phone,
+        agencyEVP,
+        agencySVP,
+        agencyDM,
+        area,
+        yearWork,
+      });
     }
+  }
+
+  private getCellValueOrNull(cell: ExcelJS.Cell): string | undefined {
+    if (!cell || cell.value === null || cell.value === undefined)
+      return undefined;
+    if (typeof cell.value === 'string') return cell.value.trim() || undefined;
+    if (typeof cell.value === 'number' || cell.value instanceof Date)
+      return String(cell.value);
+    return undefined;
   }
 }

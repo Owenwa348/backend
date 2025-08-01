@@ -5,10 +5,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-@Entity()
+@Entity('user_excel')
 export class UserExcel {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ nullable: true })
+  title: string;
 
   @Column()
   name: string;
@@ -16,12 +19,27 @@ export class UserExcel {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   phone: string;
 
-  @CreateDateColumn()
+  @Column({ nullable: true })
+  agencyEVP: string;
+
+  @Column({ nullable: true })
+  agencySVP: string;
+
+  @Column({ nullable: true })
+  agencyDM: string;
+
+  @Column({ nullable: true })
+  area: string;
+
+  @Column({ nullable: true })
+  yearWork: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 }
