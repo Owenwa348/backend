@@ -8,6 +8,7 @@ import { UserExcel } from './userexcel/userexcel.entity';
 import { UserExcelModule } from './userexcel/userexcel.module';
 import { AdminUser } from './admin-user/admin-user.entity';
 import { AdminUserModule } from './admin-user/admin-user.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -23,6 +24,7 @@ import { AdminUserModule } from './admin-user/admin-user.module';
     ExcelUploadModule,
     UserExcelModule,
     AdminUserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
